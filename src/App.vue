@@ -1,28 +1,92 @@
 <template>
-  <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
-  </div>
+  <v-app id="inspire">
+
+   <!-- nav right  -->
+    <v-navigation-drawer
+      v-model="drawerRight"
+      fixed
+      right      
+      app
+    >
+    <!-- include du chat: ./components/ListeMembres.vue -->      
+        <ListeMembres/>      
+    </v-navigation-drawer>
+<!-- nav right  -->
+
+<!-- Barre titre -->
+    <v-toolbar
+      color="blue-grey lighten-1"
+      dark
+      fixed
+      app
+      
+    >
+      
+      <v-toolbar-title>Titre du topic</v-toolbar-title>     
+    </v-toolbar>
+<!-- Barre titre -->
+
+<!--  nav left -->
+    <v-navigation-drawer
+      v-model="drawer"
+      fixed
+      app
+    >
+      
+       <CardProfile/>
+
+       <!-- include du chat: ./components/ListeTopics.vue --> 
+       <ListeTopics/>
+       
+    </v-navigation-drawer>
+<!--  nav left -->
+
+<!-- Centre de la page -->
+    <v-content>
+      <v-container fluid fill-height>
+        <!-- include du chat: ./components/Chat.vue -->
+         <Chat/>
+      </v-container>
+    </v-content>
+<!-- Centre de la page -->
+
+    <v-footer color="blue-grey" class="white--text" app>
+      <span>Vuetify</span>
+      <v-spacer></v-spacer>
+      <span>&copy; 2017</span>
+    </v-footer>
+  </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// Import des templates
+import Chat from './components/Chat'
+import ListeMembres from './components/ListeMembres'
+import CardProfile from './components/CardProfile'
+import ListeTopics from './components/ListeTopics'
 
 export default {
-  name: 'app',
+  name: 'App',
   components: {
-    HelloWorld
+    Chat,
+    ListeMembres,
+    CardProfile,
+    ListeTopics
+  },
+  data () {
+    return {
+      clipped: false,
+      drawer: true,
+      fixed: false,
+      items: [{
+        icon: 'bubble_chart',
+        title: 'Inspire'
+      }],
+      miniVariant: false,
+      right: true,
+      rightDrawer: false,
+      title: 'Titre topics'
+    }
   }
 }
 </script>
-
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
