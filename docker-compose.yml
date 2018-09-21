@@ -12,7 +12,7 @@ services:
     image: mhart/alpine-node:8
       container_name : BackEnd
       ports:
-        - "3000:3000"
+        - "8080:8080"
       command: "npm start"  
       volumes:
         - ./BackEnd:/BackEnd
