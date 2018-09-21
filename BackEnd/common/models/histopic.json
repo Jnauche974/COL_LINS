@@ -1,0 +1,32 @@
+{
+  "name": "Histopic",
+  "plural": "Histopics",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Date": {
+      "type": "date",
+      "required": true
+    },
+    "Type": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "topics": {
+      "type": "hasMany",
+      "model": "Topic",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

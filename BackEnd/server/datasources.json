@@ -1,0 +1,16 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "collins": {
+    "host": "mongo",
+    "port": 27017,
+    "url": "",
+    "database": "mongodb",
+    "password": "",
+    "name": "collins",
+    "user": "",
+    "connector": "mongodb"
+  }
+}

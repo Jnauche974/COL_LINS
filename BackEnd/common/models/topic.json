@@ -1,0 +1,40 @@
+{
+  "name": "Topic",
+  "plural": "Topics",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Name": {
+      "type": "string",
+      "required": true
+    },
+    "Close": {
+      "type": "boolean",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "messages": {
+      "type": "hasMany",
+      "model": "Message",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "clients": {
+      "type": "hasAndBelongsToMany",
+      "model": "Client",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

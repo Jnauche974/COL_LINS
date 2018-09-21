@@ -1,0 +1,58 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "collins"
+  },
+  "AccessToken": {
+    "dataSource": "collins",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "collins",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "collins",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "collins",
+    "public": false
+  },
+  "Client": {
+    "dataSource": "collins",
+    "public": true
+  },
+  "Topic": {
+    "dataSource": "collins",
+    "public": true
+  },
+  "Message": {
+    "dataSource": "collins",
+    "public": true
+  },
+  "Histopic": {
+    "dataSource": "collins",
+    "public": true
+  },
+  "Type": {
+    "dataSource": "collins",
+    "public": true
+  }
+}
