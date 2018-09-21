@@ -10,4 +10,4 @@ Initialiser l'installation du FrontEnd
 
 Ensuite revenir à la racine du projet et faire:
 
-  docker-compose up
+    docker-compose up
