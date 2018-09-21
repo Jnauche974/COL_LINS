@@ -1,0 +1,26 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "mongo-cci": {
+    "host": "192.168.99.100",
+    "port": 27017,
+    "url": "",
+    "database": "mongo-cci",
+    "password": "",
+    "name": "mongo-cci",
+    "user": "",
+    "connector": "mongodb"
+  },
+  "collins": {
+    "host": "mongo",
+    "port": 27017,
+    "url": "",
+    "database": "mongodb",
+    "password": "",
+    "name": "collins",
+    "user": "",
+    "connector": "mongodb"
+  }
+}

@@ -1,0 +1,36 @@
+{
+  "name": "Client",
+  "plural": "Clients",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "Genre": {
+      "type": "string",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "messages": {
+      "type": "hasMany",
+      "model": "Message",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    },
+    "topics": {
+      "type": "hasAndBelongsToMany",
+      "model": "Topic",
+      "foreignKey": "",
+      "options": {
+        "nestRemoting": true
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
