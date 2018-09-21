@@ -1,0 +1,8 @@
+version: '3'
+services:
+  FrontEnd:
+    image: "ebiven/vue-cli"
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./FrontEnd:/FrontEnd
