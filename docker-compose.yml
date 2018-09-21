@@ -1,0 +1,22 @@
+version: '3'
+services:
+  FrontEnd:
+    image: "ebiven/vue-cli"
+    command: "npm run serve"
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./FrontEnd:/FrontEnd
+    working_dir: /FrontEnd
+  BackEnd:
+    image: mhart/alpine-node:8
+      container_name : BackEnd
+      ports:
+        - "3000:3000"
+      command: "npm start"  
+      volumes:
+        - ./BackEnd:/BackEnd
+      working_dir: /BackEnd    
+  mongo:
+    container_name: mongodb
+    image: mongo  
