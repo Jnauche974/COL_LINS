@@ -3,15 +3,15 @@
         <v-list two-line subheader>
           <v-subheader inset>Mes topics</v-subheader>
           <v-list-tile
-            v-for="item in items"
-            :key="item.title"
+            v-for="topic in topics"
+            :key="topic.title"
             avatar
-            @click=""
-          >           
+          >
+
 
             <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+              <v-list-tile-title>{{ topic.Name }}</v-list-tile-title>
+              <v-list-tile-sub-title>{{ topic.Close }}</v-list-tile-sub-title>
             </v-list-tile-content>
           </v-list-tile>
 
@@ -35,19 +35,38 @@
 
 </template>
 <script>
+  import axios from 'axios';
+  const API_Topic = 'http://10.0.0.100:3000/api/Topics';
+
   export default {
     data () {
       return {
-        items: [
-          { iconClass: 'grey lighten-1 white--text', title: 'Topic 1', subtitle: 'Jan 9, 2018' },
-          { iconClass: 'grey lighten-1 white--text', title: 'Topic 2', subtitle: 'Jan 17, 2018' },
-          { iconClass: 'grey lighten-1 white--text', title: 'Topic 3', subtitle: 'Jan 28, 2018' }
-        ],
-        items2: [
-          { iconClass: 'blue white--text', title: 'Mes abonnements 1', subtitle: 'Jan 20, 2018' },
-          { iconClass: 'amber white--text', title: 'Mes abonnements 2', subtitle: 'Jan 10, 2018' }
-        ]
+        topics: [],
+        errors: [],
+        topic: {
+          Name: '',
+          Close: '',
+          id: '',
+          histopicId: '',
+          typeId: ''
+          }
+        }
+      },
+      mounted(){
+      axios.get(API_Topic)
+      .then(response =>{
+        this.topics = response.data
+      })
+      .catch(e =>{
+        this.errors.push(e)
+      })
+    },
+    methods: {
+      AddTopic: function()
+      {
+        axios.post(API_Topic, this.topic)
       }
     }
-  }
+
+    }
 </script>
