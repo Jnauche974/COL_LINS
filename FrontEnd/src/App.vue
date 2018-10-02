@@ -1,15 +1,14 @@
 <template>
   <v-app id="inspire">
-
    <!-- nav right  -->
     <v-navigation-drawer
       v-model="drawerRight"
       fixed
-      right      
+      right
       app
     >
-    <!-- include du chat: ./components/ListeMembres.vue -->      
-        <ListeMembres/>      
+    <!-- include du chat: ./components/ListeMembres.vue -->
+        <ListeMembres/>
     </v-navigation-drawer>
 <!-- nav right  -->
 
@@ -21,8 +20,7 @@
       app
       
     >
-      
-      <v-toolbar-title>Titre du topic</v-toolbar-title>     
+      <v-toolbar-title>Titre du topic</v-toolbar-title>
     </v-toolbar>
 <!-- Barre titre -->
 
@@ -64,6 +62,7 @@ import Chat from './components/Chat'
 import ListeMembres from './components/ListeMembres'
 import CardProfile from './components/CardProfile'
 import ListeTopics from './components/ListeTopics'
+import PopUp from './components/PopUp';
 
 export default {
   name: 'App',
@@ -71,7 +70,8 @@ export default {
     Chat,
     ListeMembres,
     CardProfile,
-    ListeTopics
+    ListeTopics,
+    PopUp
   },
   data () {
     return {
