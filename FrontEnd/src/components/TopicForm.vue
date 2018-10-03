@@ -52,11 +52,12 @@
   import ListeTopicsVue from './ListeTopics.vue';
   const API_Topic = 'http://10.0.0.100:3000/api/Topics';
   const API_Type = 'http://10.0.0.100:3000/api/Types';
-  
+
   export default {
     data () {
       return {
-        refreshListTopic: ListeTopicsVue.methods.getTopic,
+        refreshListTopic: ListeTopicsVue.methods.refresh,
+        maj: false,
         bonjour1: 'test',
         dialog: false,
         types: [],
@@ -73,12 +74,15 @@
       this.getType();
     },
     methods: {
-      addTopic: function (topic){
-        var that = this;
+      addTopic: function(topic) {
+        // const that = this;
         axios.post(API_Topic, topic)
-        .then(function (response) {
-          that.refreshListTopic();
-        return response;
+        .then(response =>{
+          this.maj = true;
+          // that.refreshListTopic();
+          // // ListeTopicsVue.methods.refresh();
+          return response;
+
         })
       },
       getType: function() {
