@@ -54,9 +54,6 @@ boot(app, __dirname, function(err) {
       socket.on('disconnect', function(){
           console.log('user disconnected');
       });
-      socket.on('pingServer', function(msg) {
-        console.log('ping: ' + msg);
-      })
       socket.on('chatMessage', function(msg) {
         socket.emit('chatMessage', msg);
       })
