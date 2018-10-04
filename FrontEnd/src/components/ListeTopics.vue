@@ -4,9 +4,10 @@
 
         <v-list two-line subheader>
           <v-subheader inset>Mes topics</v-subheader>
+        <div>
           <EditTopic/>
           <TopicForm/>
-
+        </div>
           <v-list-tile
             v-for="topic in topics"
             :key="topic.title"
@@ -82,6 +83,7 @@ export default {
       topic: {
         Name: "",
         Close: "",
+        id: '',
         histopicId: "",
         typeId: ""
       }
@@ -110,6 +112,13 @@ export default {
     removeTopic: function(id) {
       const that = this;
       axios.delete(API_Topic + id).then(function() {
+        that.getTopic();
+        window.location.reload();
+      });
+    },
+    editTopic: function(topic) {
+      const that = this;
+      axios.put(API_Topic + topic.id, topic).then(function() {
         that.getTopic();
         window.location.reload();
       });
