@@ -2,16 +2,20 @@
   <v-container fluid>
     <v-slide-y-transition mode="out-in">
       <v-layout column align-center>
-        <div id="messageChat"></div>
+        <div id="messageChat"><p v-html="socketMessage">{{socketMessage}}</p></div>
         <img src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
         <blockquote>
           &#8220;First, solve the problem. Then, write the code.&#8221;
           <div>
               <p v-if="isConnected">Nous somme connecté au serveur!</p>
               <p v-if="!isConnected">Nous somme déconnecté au serveur!</p>
-              <button @click="pingServer()">Ping Server</button>
 
-              <v-form ref="form" v-model="valid" lazy-validation>
+              
+
+          </div>
+          <footer>
+            <small>
+              <v-form id="form" ref="form" v-model="valid" lazy-validation>
                 <v-text-field
                   v-model="message"
                   :rules="messageRules"
@@ -28,11 +32,6 @@
                 </v-btn>
                 <v-btn @click="clear">Effacer</v-btn>
               </v-form>
-
-          </div>
-          <footer>
-            <small>
-              <em>&mdash;John Johnson</em>
             </small>
           </footer>
         </blockquote>
@@ -54,9 +53,6 @@
       ],
       isConnected: false 
     }),
-    render: function (createElement) {
-      return createElement('h1', this.socketMessage)
-    },
 
     sockets: {
       connect() {
@@ -68,7 +64,8 @@
       },
 
       chatMessage (message) {
-        document.getElementById('messageChat').innerHTML +=  "<p>" + message + "</p>"; 
+        // document.getElementById('messageChat').innerHTML +=  "<p>" + message + "</p>";
+        this.socketMessage += '<p>' + message + '<p>' ; 
       }
     },
 
@@ -111,4 +108,5 @@ a {
 #messages { list-style-type: none; margin: 0; padding: 0; }
 #messages li { padding: 5px 10px; }
 #messages li:nth-child(odd) { background: #eee; }
+#form {position: fixed; bottom: 50px; }
 </style>
