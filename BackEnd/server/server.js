@@ -5,6 +5,7 @@ var boot = require('loopback-boot');
 
 var app = module.exports = loopback();
 
+
 app.start = function() {
   // start the web server
   return app.listen(function() {
@@ -28,7 +29,7 @@ boot(app, __dirname, function(err) {
     //Comment this app.start line and add following lines
     //app.start();
     app.io = require('socket.io')(app.start());
-    require('socketio-auth')(app.io, {
+    /*require('socketio-auth')(app.io, {
       authenticate: function (socket, value, callback) {
   
           var AccessToken = app.models.AccessToken;
@@ -46,13 +47,19 @@ boot(app, __dirname, function(err) {
             }
           }); //find function..    
         } //authenticate function..
-    });
+    });*/
   
     app.io.on('connection', function(socket){
       console.log('a user connected');
       socket.on('disconnect', function(){
           console.log('user disconnected');
       });
+      socket.on('pingServer', function(msg) {
+        console.log('ping: ' + msg);
+      })
+      socket.on('chatMessage', function(msg) {
+        socket.emit('chatMessage', msg);
+      })
     });
   }
 });
