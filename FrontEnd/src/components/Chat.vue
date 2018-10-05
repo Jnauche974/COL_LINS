@@ -64,7 +64,6 @@
       },
 
       chatMessage (message) {
-        // document.getElementById('messageChat').innerHTML +=  "<p>" + message + "</p>";
         this.socketMessage += '<p>' + message + '<p>' ; 
       }
     },
