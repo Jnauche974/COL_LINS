@@ -78,10 +78,6 @@
 
       clear () {
         this.$refs.form.reset()
-      },
-
-      pingServer() {
-        this.$socket.emit('pingServer', 'PING!');
       }
     }
   }
