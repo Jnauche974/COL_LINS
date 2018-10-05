@@ -56,6 +56,7 @@ boot(app, __dirname, function(err) {
       });
       socket.on('chatMessage', function(msg) {
         socket.emit('chatMessage', msg);
+        socket.broadcast.emit('chatMessage', msg);
       })
     });
   }
