@@ -34,7 +34,8 @@
        <CardProfile/>
 
        <!-- include du chat: ./components/ListeTopics.vue --> 
-       <ListeTopics/>
+       <!-- <ListeTopics/> -->
+       <tabIndex/>
        
     </v-navigation-drawer>
 <!--  nav left -->
@@ -61,7 +62,8 @@
 import Chat from './components/Chat'
 import ListeMembres from './components/ListeMembres'
 import CardProfile from './components/CardProfile'
-import ListeTopics from './components/ListeTopics'
+// import ListeTopics from './components/ListeTopics'
+import tabIndex from './components/tabIndex'
 import PopUp from './components/PopUp';
 
 export default {
@@ -70,8 +72,9 @@ export default {
     Chat,
     ListeMembres,
     CardProfile,
-    ListeTopics,
-    PopUp
+    // ListeTopics,
+    PopUp,
+    tabIndex
   },
   data () {
     return {

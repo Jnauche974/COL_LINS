@@ -1,13 +1,12 @@
 <template>
       <v-card>
         <PopUp/>
+        <SnackBarInfo/>
 
-        <v-list two-line subheader>
-          <v-subheader inset>Mes topics</v-subheader>
-        <div>
+        <v-layout row justify-center>
           <EditTopic/>
           <TopicForm/>
-        </div>
+        </v-layout>
           <v-list-tile
             v-for="topic in topics"
             :key="topic.title"
@@ -15,7 +14,7 @@
             v-if="topic.Close == false"
           >
 
-            <v-list-tile-content>
+            <v-list-tile-content v-scroll>
               <!-- <longpress duration="2" pressing-text="Keep pressing for {$rcounter} seconds to delete" action-text="Deleting, please wait..."> -->
                 <v-chip
                 v-model="chip_remove"
@@ -35,26 +34,9 @@
                 >
                   {{ topic.Name }}
                 </v-chip>
-              <!-- </longpress> -->
-
             </v-list-tile-content>
           </v-list-tile>
-
           <v-divider inset></v-divider>
-
-          <v-subheader inset>Mes abonnements</v-subheader>
-
-          <v-list-tile
-            v-for="item in items2"
-            :key="item.title"
-            avatar
-          >
-            <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-        </v-list>
       </v-card>
 
 </template>
@@ -63,7 +45,7 @@ import axios from "axios";
 import TopicForm from "./TopicForm";
 import PopUp from "./PopUp";
 import EditTopic from "./EditTopic";
-import Longpress from "vue-longpress";
+// import tabIndex from "./tabIndex";
 
 const API_Topic = "http://10.0.0.100:3000/api/Topics/";
 
@@ -71,8 +53,9 @@ export default {
   components: {
     TopicForm,
     PopUp,
-    Longpress,
-    EditTopic
+    EditTopic,
+    // tabIndex
+
   },
   data() {
     return {
@@ -83,7 +66,7 @@ export default {
       topic: {
         Name: "",
         Close: "",
-        id: '',
+        id: "",
         histopicId: "",
         typeId: ""
       }
@@ -124,8 +107,5 @@ export default {
       });
     }
   }
-  // update: function() {
-  //   this.getTopic();
-  // }
 };
 </script>

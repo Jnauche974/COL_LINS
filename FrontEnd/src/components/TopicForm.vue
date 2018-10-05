@@ -49,14 +49,20 @@
 
 <script>
   import axios from 'axios';
+  import PopUpVue from './PopUp.vue';
   import ListeTopicsVue from './ListeTopics.vue';
   const API_Topic = 'http://10.0.0.100:3000/api/Topics';
   const API_Type = 'http://10.0.0.100:3000/api/Types';
 
   export default {
+    components: {
+      PopUpVue,
+      ListeTopicsVue
+    },
     data () {
       return {
-        refreshListTopic: ListeTopicsVue.methods.refresh,
+        mounted: ListeTopicsVue.mounted,
+        setPopUp: PopUpVue.methods.SetPopUp,
         maj: false,
         bonjour1: 'test',
         dialog: false,
@@ -75,13 +81,18 @@
     },
     methods: {
       addTopic: function(topic) {
-        // const that = this;
+        const that = this;
         axios.post(API_Topic, topic)
         .then(response =>{
           this.maj = true;
           // that.refreshListTopic();
           // // ListeTopicsVue.methods.refresh();
+          that.setPopUp(true, 'success', 'ajout du topic :  réussi');
+          //window.location.reload();
           return response;
+        })
+        .catch(e =>{
+          this.errors.push(e)
 
         })
       },

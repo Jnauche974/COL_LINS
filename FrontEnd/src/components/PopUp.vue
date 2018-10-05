@@ -3,31 +3,32 @@
     <v-alert
       v-model="alert"
       dismissible
-      type="success"
+      :type="type"
     >
-      This is a success alert that is closable. {{message}}
+      {{message}}
     </v-alert>
   </div>
 </template>
 
 <script>
-// this.SetPopUp(false, 'success', 'test de julien');
   export default {
+      //success, error, info, warning
     data () {
       return {
-        alert: false,
-        type: 'success',
+        alert: '',
+        type: '',
         message: ''
       }
     },
     mounted(){
-        // this.SetPopUp(true, 'success', 'test de julien');
+        //this.SetPopUp(true, 'success', 'test de julien');
     },
     methods: {
         SetPopUp: function(alertVal, typeVal, messageVal){
             this.alert = alertVal;
             this.type = typeVal;
-            this.alert = messageVal;
+            this.message = messageVal;
+            window.location.reload();
         }
     }
   }
