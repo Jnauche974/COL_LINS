@@ -5,7 +5,6 @@ var boot = require('loopback-boot');
 
 var app = module.exports = loopback();
 
-
 app.start = function() {
   // start the web server
   return app.listen(function() {
@@ -56,6 +55,10 @@ boot(app, __dirname, function(err) {
       });
       socket.on('chatMessage', function(msg) {
         socket.emit('chatMessage', msg);
+        let record =  [{"Date": new Date(Date.now()),"Message": msg}];
+       // console.log(app.models);
+        app.models.Message.create(record, (error) => {if (error) console.log(error);});
+       
         socket.broadcast.emit('chatMessage', msg);
       })
     });
