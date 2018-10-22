@@ -26,14 +26,12 @@
         let { alert , type, message} = arg;
         this.SetPopUp(alert, type, message);
       });
-       //this.SetPopUp(true, 'success', 'test de julien');
     },
     methods: {
         SetPopUp: function(alertVal, typeVal, messageVal){
             this.alert = alertVal;
             this.type = typeVal;
             this.message = messageVal;
-            window.location.reload();
         }
     }
   }

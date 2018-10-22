@@ -46,6 +46,7 @@ import TopicForm from "./TopicForm";
 import PopUp from "./PopUp";
 import EditTopic from "./EditTopic";
  import SnackBarInfo from "./SnackbarInfo";
+ import {EventBus } from './event-bus.js';
 
 const API_Topic = "http://10.0.0.100:3000/api/Topics/";
 
@@ -75,12 +76,10 @@ export default {
   },
   mounted() {
     this.getTopic();
+     EventBus.$on('topic-reloaded', ()=> {
+         this.getTopic();
+      });
   },
-  // watch:{
-  //   topics: function(){
-  //     this.getTopic();
-  //   }
-  // },
   methods: {
     getTopic: function() {
       const that = this;
@@ -97,14 +96,14 @@ export default {
       const that = this;
       axios.delete(API_Topic + id).then(function() {
         that.getTopic();
-        window.location.reload();
+        EventBus.$emit('topic-reloaded');
       });
     },
     editTopic: function(topic) {
       const that = this;
       axios.put(API_Topic + topic.id, topic).then(function() {
         that.getTopic();
-        window.location.reload();
+        EventBus.$emit('topic-reloaded');
       });
     }
   }

@@ -87,19 +87,12 @@
         axios.post(API_Topic, topic)
         .then(response =>{
           this.maj = true;
-          // that.refreshListTopic();
-          // // ListeTopicsVue.methods.refresh();
-          // that.setPopUp(true, 'success', 'ajout du topic :  réussi');
-          // PopUpVue.methods.SetPopUp();c
           EventBus.$emit('topic-added', {alert: true, type: 'success' , message: 'Ajout du topic Réussi !'});
-          //window.location.reload();
+          EventBus.$emit('topic-reloaded');
           return response;
         })
         .catch(e =>{
           this.errors.push(e)
-          // eslint-disable-next-line
-          console.log(this.errors);
-
         })
       },
       getType: function() {

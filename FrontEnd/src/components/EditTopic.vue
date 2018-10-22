@@ -1,7 +1,8 @@
 <template>
   <v-layout row justify-center>
     <v-dialog v-model="dialog" persistent max-width="500px">
-      <v-btn slot="activator" fab dark small color="orange">
+      <v-btn slot="activator" fab dark small color="orange"
+      @click='doMaj()'>
           <v-icon dark>build</v-icon>
         </v-btn>
       <v-card>
@@ -89,9 +90,6 @@ export default {
       typeId: ""
     }
   }),
-  mounted() {
-      this.doMaj();
-  },
   methods: {
     doAction: function(action, topic) {
       const that = this;
