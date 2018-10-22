@@ -5,32 +5,30 @@
         <div id="messageChat"><p v-html="socketMessage">{{socketMessage}}</p></div>
         <img src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
         <blockquote>
-          &#8220;First, solve the problem. Then, write the code.&#8221;
           <div>
               <p v-if="isConnected">Nous somme connecté au serveur!</p>
               <p v-if="!isConnected">Nous somme déconnecté au serveur!</p>
-
-              
-
           </div>
           <footer>
             <small>
               <v-form id="form" ref="form" v-model="valid" lazy-validation>
-                <v-text-field
+                <v-textarea
                   v-model="message"
+                  box
                   :rules="messageRules"
                   :counter="200"
                   label="Message"
                   required
-                ></v-text-field>
+                ></v-textarea>
+
 
                 <v-btn
                   :disabled="!valid"
-                  @click="submit"
+                  v-on:click="submit"
                 >
                   Envoyer
                 </v-btn>
-                <v-btn @click="clear">Effacer</v-btn>
+                <v-btn v-on:click="clear">Effacer</v-btn>
               </v-form>
             </small>
           </footer>
@@ -71,6 +69,8 @@
     methods: {
       submit () {
         if (this.$refs.form.validate()) {
+          // Get the message and sent to the serveur
+            // Code here
           this.$socket.emit('chatMessage', this.message);
           this.message = '';
         }
