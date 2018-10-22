@@ -52,8 +52,8 @@
   import PopUpVue from './PopUp.vue';
   import {EventBus} from './event-bus.js';
   import ListeTopicsVue from './ListeTopics.vue';
-  const API_Topic = 'http://10.0.0.100:3000/api/Topics';
-  const API_Type = 'http://10.0.0.100:3000/api/Types';
+  const API_Topic = 'http://localhost:3000/api/Topics';
+  const API_Type = 'http://localhost:3000/api/Types';
 
   export default {
     components: {

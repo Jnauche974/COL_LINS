@@ -48,7 +48,7 @@ import EditTopic from "./EditTopic";
  import SnackBarInfo from "./SnackbarInfo";
  import {EventBus } from './event-bus.js';
 
-const API_Topic = "http://10.0.0.100:3000/api/Topics/";
+const API_Topic = "http://localhost:3000/api/Topics/";
 
 export default {
   components: {

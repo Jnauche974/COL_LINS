@@ -56,7 +56,7 @@
 import ListeTopic from './ListeTopics';
 import axios from "axios";
 // https://www.youtube.com/watch?v=G34_yNV8FMY
-const API_Topic = "http://10.0.0.100:3000/api/Topics/";
+const API_Topic = "http://localhost:3000/api/Topics/";
 
 
   export default {
