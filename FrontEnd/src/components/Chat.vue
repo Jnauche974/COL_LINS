@@ -2,7 +2,14 @@
   <v-container fluid>
     <v-slide-y-transition mode="out-in">
       <v-layout column align-center>
-        <div id="messageChat"><p v-html="socketMessage">{{socketMessage}}</p></div>
+        <div id="messageChat">
+           <ul v-for="msg of messages">
+              <li>
+                 <p><strong>{{msg.Message}}</strong></p>
+                 <p>{{msg.Date}}</p>
+              </li>
+           </ul>
+        </div>
         <img src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
         <blockquote>
           <div>
@@ -40,11 +47,14 @@
 </template>
 
 <script>
+import axios from 'axios';
+
   export default {
     data: () => ({
       valid: true,
       message: '',
       socketMessage: '',
+      messages:[],
       messageRules: [
         v => !!v || 'Message is required',
         v => (v && v.length <= 200) || 'Message must be less than 200 characters'
@@ -55,6 +65,7 @@
     sockets: {
       connect() {
         this.isConnected = true;
+        this.getMessages();
       },
 
       disconnect() {
@@ -62,7 +73,8 @@
       },
 
       chatMessage (message) {
-        this.socketMessage += '<p>' + message + '<p>' ; 
+        this.socketMessage += '<p>' + message + '<p>' ;
+        this.getMessages();
       }
     },
 
@@ -73,6 +85,16 @@
           this.$socket.emit('chatMessage', this.message);
           this.message = '';
         }
+      },
+      
+      getMessages () {
+        // Todo request from Topics/{id}/messages
+        axios.get('http://localhost:3000/api/Messages')
+          .then(response => {
+            this.messages = response.data
+    
+          })
+          .catch(e => {this.error.push(e)});
       },
 
       clear () {
