@@ -87,7 +87,7 @@
         axios.post(API_Topic, topic)
         .then(response =>{
           this.maj = true;
-          EventBus.$emit('topic-added', {alert: true, type: 'success' , message: 'Ajout du topic Réussi !'});
+          EventBus.$emit('topic-added', {alert: true, type: 'success' , message: 'Ajout du topic'+topic.Name+ 'Réussi !'});
           EventBus.$emit('topic-reloaded');
           return response;
         })

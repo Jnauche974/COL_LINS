@@ -2,11 +2,13 @@
   <div>
     <v-alert
       :value="alert"
-      dismissible
+
       :type="type"
     >
       {{message}}
+      <v-btn fab dark small @click='alert=false'><v-icon dark>close</v-icon></v-btn>
     </v-alert>
+
   </div>
 </template>
 
