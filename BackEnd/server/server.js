@@ -28,6 +28,7 @@ boot(app, __dirname, function(err) {
     //Comment this app.start line and add following lines
     //app.start();
     app.io = require('socket.io')(app.start());
+    // Use this with user authentification
     /*require('socketio-auth')(app.io, {
       authenticate: function (socket, value, callback) {
   
@@ -49,16 +50,14 @@ boot(app, __dirname, function(err) {
     });*/
   
     app.io.on('connection', function(socket){
-      console.log('a user connected');
+      console.info('a user connected');
       socket.on('disconnect', function(){
-          console.log('user disconnected');
+          console.info('user disconnected');
       });
       socket.on('chatMessage', function(msg) {
         socket.emit('chatMessage', msg);
         let record =  [{"Date": new Date(Date.now()),"Message": msg}];
-       // console.log(app.models);
-        app.models.Message.create(record, (error) => {if (error) console.log(error);});
-       
+        app.models.Message.create(record, (error) => {if (error) console.error(error);}); 
         socket.broadcast.emit('chatMessage', msg);
       })
     });
