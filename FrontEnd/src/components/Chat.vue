@@ -11,13 +11,7 @@
            </ul>
         </div>
         <img src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
-        <blockquote>
-          <div>
-              <p v-if="isConnected">Nous somme connecté au serveur!</p>
-              <p v-if="!isConnected">Nous somme déconnecté au serveur!</p>
-          </div>
-          <footer>
-            <small>
+        <div>
               <v-form id="form" ref="form" v-model="valid" lazy-validation>
                 <v-textarea
                   v-model="message"
@@ -27,8 +21,7 @@
                   label="Message"
                   required
                 ></v-textarea>
-
-
+                
                 <v-btn
                   :disabled="!valid"
                   v-on:click="submit"
@@ -37,9 +30,7 @@
                 </v-btn>
                 <v-btn v-on:click="clear">Effacer</v-btn>
               </v-form>
-            </small>
-          </footer>
-        </blockquote>
+          </div>
       </v-layout>
     </v-slide-y-transition>
   </v-container>
@@ -53,27 +44,23 @@ import axios from 'axios';
     data: () => ({
       valid: true,
       message: '',
-      socketMessage: '',
       messages:[],
       messageRules: [
         v => !!v || 'Message is required',
         v => (v && v.length <= 200) || 'Message must be less than 200 characters'
-      ],
-      isConnected: false 
+      ]
     }),
 
     sockets: {
       connect() {
-        this.isConnected = true;
         this.getMessages();
       },
 
       disconnect() {
-        this.isConnected = false;
+        
       },
 
       chatMessage (message) {
-        this.socketMessage += '<p>' + message + '<p>' ;
         this.getMessages();
       }
     },
@@ -94,7 +81,10 @@ import axios from 'axios';
             this.messages = response.data
     
           })
-          .catch(e => {this.error.push(e)});
+          .catch(e => {
+            // eslint-disable-next-line
+            console.error(e)
+          });
       },
 
       clear () {
