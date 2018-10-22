@@ -70,7 +70,6 @@
       submit () {
         if (this.$refs.form.validate()) {
           // Get the message and sent to the serveur
-            // Code here
           this.$socket.emit('chatMessage', this.message);
           this.message = '';
         }
