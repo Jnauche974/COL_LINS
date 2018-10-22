@@ -18,7 +18,7 @@
       dark
       fixed
       app
-      
+
     >
       <v-toolbar-title>Titre du topic</v-toolbar-title>
     </v-toolbar>

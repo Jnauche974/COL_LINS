@@ -8,11 +8,14 @@
       <v-text-field
         append-icon="mic"
         class="mx-3"
+        v-model="search"
         flat
         label="Search"
         prepend-inner-icon="search"
         solo-inverted
-      ></v-text-field>
+      >
+      </v-text-field>
+
 
       <v-tabs
         slot="extension"
@@ -33,7 +36,7 @@
     <v-tabs-items v-model="tabs">
       <v-tab-item
         v-for="item in items"
-        v-if="item == 'Topics' "
+        v-if="item == 'Topics' && searchProcess != true"
         :key= "item"
       >
         <ListeTopic/>
@@ -52,8 +55,9 @@
 <script>
 import ListeTopic from './ListeTopics';
 import axios from "axios";
-
+// https://www.youtube.com/watch?v=G34_yNV8FMY
 const API_Topic = "http://10.0.0.100:3000/api/Topics/";
+
 
   export default {
     components: {
@@ -62,24 +66,25 @@ const API_Topic = "http://10.0.0.100:3000/api/Topics/";
     data () {
       return {
         items: ['Topics','Abonnements'],
-        tabs: null,
         topics: [],
-        topic: {
-        Name: "",
-        Close: "",
-        id: "",
-        histopicId: "",
-        typeId: ""
-      },
+        tabs: null,
         abos: [],
-        text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
+        searchProcess: false,
+        search: ''
       }
     },
-    mounted() {
-       this.getTopic();
+    created() {
+      this.getTopic();
+    },
+    watch: {
+        filteredTopics: function() {
+            return this.topics.filter((topic) => {
+                return topic.Name.match(this.search);
+            })
+        }
     },
     methods: {
-        getTopic: function() {
+      getTopic: function() {
       const that = this;
       axios
         .get(API_Topic)
@@ -89,7 +94,9 @@ const API_Topic = "http://10.0.0.100:3000/api/Topics/";
         .catch(e => {
           this.errors.push(e);
         });
+        // eslint-disable-next-line
+        console.log(this.search);
     },
-    },
+    }
   }
 </script>

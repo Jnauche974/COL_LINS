@@ -45,7 +45,7 @@ import axios from "axios";
 import TopicForm from "./TopicForm";
 import PopUp from "./PopUp";
 import EditTopic from "./EditTopic";
-// import tabIndex from "./tabIndex";
+ import SnackBarInfo from "./SnackbarInfo";
 
 const API_Topic = "http://10.0.0.100:3000/api/Topics/";
 
@@ -54,6 +54,7 @@ export default {
     TopicForm,
     PopUp,
     EditTopic,
+    SnackBarInfo
     // tabIndex
 
   },

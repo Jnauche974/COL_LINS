@@ -1,7 +1,7 @@
 <template>
   <div>
     <v-alert
-      v-model="alert"
+      :value="alert"
       dismissible
       :type="type"
     >
@@ -11,17 +11,22 @@
 </template>
 
 <script>
+  import {EventBus } from './event-bus.js';
   export default {
       //success, error, info, warning
     data () {
       return {
-        alert: '',
-        type: '',
+        alert: false,
+        type: 'error',
         message: ''
       }
     },
     mounted(){
-        //this.SetPopUp(true, 'success', 'test de julien');
+      EventBus.$on('topic-added', (arg)=> {
+        let { alert , type, message} = arg;
+        this.SetPopUp(alert, type, message);
+      });
+       //this.SetPopUp(true, 'success', 'test de julien');
     },
     methods: {
         SetPopUp: function(alertVal, typeVal, messageVal){

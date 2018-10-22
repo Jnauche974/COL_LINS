@@ -50,6 +50,7 @@
 <script>
   import axios from 'axios';
   import PopUpVue from './PopUp.vue';
+  import {EventBus} from './event-bus.js';
   import ListeTopicsVue from './ListeTopics.vue';
   const API_Topic = 'http://10.0.0.100:3000/api/Topics';
   const API_Type = 'http://10.0.0.100:3000/api/Types';
@@ -66,6 +67,7 @@
         maj: false,
         bonjour1: 'test',
         dialog: false,
+        errors: [],
         types: [],
         topics: [],
         topic: {
@@ -87,12 +89,16 @@
           this.maj = true;
           // that.refreshListTopic();
           // // ListeTopicsVue.methods.refresh();
-          that.setPopUp(true, 'success', 'ajout du topic :  réussi');
+          // that.setPopUp(true, 'success', 'ajout du topic :  réussi');
+          // PopUpVue.methods.SetPopUp();c
+          EventBus.$emit('topic-added', {alert: true, type: 'success' , message: 'Ajout du topic Réussi !'});
           //window.location.reload();
           return response;
         })
         .catch(e =>{
           this.errors.push(e)
+          // eslint-disable-next-line
+          console.log(this.errors);
 
         })
       },
