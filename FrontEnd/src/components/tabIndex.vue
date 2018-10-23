@@ -55,13 +55,13 @@
 <script>
 import ListeTopic from './ListeTopics';
 import axios from "axios";
-// https://www.youtube.com/watch?v=G34_yNV8FMY
-const API_Topic = "http://localhost:3000/api/Topics/";
+ import Settings from '../../appSettings';
+const API_Topic = Settings.BaseURL + Settings.Api.TOPICS;
 
 
   export default {
     components: {
-        ListeTopic,
+        ListeTopic
     },
     data () {
       return {
@@ -76,13 +76,14 @@ const API_Topic = "http://localhost:3000/api/Topics/";
     created() {
       this.getTopic();
     },
-    watch: {
-        filteredTopics: function() {
-            return this.topics.filter((topic) => {
-                return topic.Name.match(this.search);
-            })
-        }
-    },
+    // Méthode pour fonction recherche sur form
+    // watch: {
+    //     filteredTopics: function() {
+    //         return this.topics.filter((topic) => {
+    //             return topic.Name.match(this.search);
+    //         })
+    //     }
+    // },
     methods: {
       getTopic: function() {
       const that = this;
@@ -93,9 +94,9 @@ const API_Topic = "http://localhost:3000/api/Topics/";
         })
         .catch(e => {
           this.errors.push(e);
+          // eslint-disable-next-line
+          console.error(errors);
         });
-        // eslint-disable-next-line
-        console.log(this.search);
     },
     }
   }

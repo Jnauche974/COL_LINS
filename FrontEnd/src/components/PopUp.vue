@@ -24,7 +24,7 @@
       }
     },
     mounted(){
-      EventBus.$on('topic-added', (arg)=> {
+      EventBus.$on('topic-messaged', (arg)=> {
         let { alert , type, message} = arg;
         this.SetPopUp(alert, type, message);
       });

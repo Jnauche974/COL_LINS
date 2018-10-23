@@ -2,7 +2,7 @@
   <v-layout row justify-center>
     <v-dialog v-model="dialog" persistent max-width="500px">
       <v-btn slot="activator" fab dark small color="orange"
-      @click='doMaj()'>
+      @click='getTopicType()'>
           <v-icon dark>build</v-icon>
         </v-btn>
       <v-card>
@@ -21,11 +21,11 @@
                   label="Nom du topic :"
                 >
                 <template slot="selection" slot-scope="data">
-                  {{ data.item.Name }} ({{ translate(data.item.Close) }} )
+                  {{ data.item.Name }} ({{ getTopicStatus(data.item.Close) }} )
                 </template>
                 <template slot="item" slot-scope="data">
                     <v-list-tile-content>
-                      <v-list-tile-title v-html="`${ data.item.Name } (${ translate(data.item.Close) })`">
+                      <v-list-tile-title v-html="`${ data.item.Name } (${ getTopicStatus(data.item.Close) })`">
                       </v-list-tile-title>
                     </v-list-tile-content>
                   </template>
@@ -69,6 +69,7 @@
 <script>
 import ListeTopicsVue from "./ListeTopics.vue";
 import TopicFormVue from "./TopicForm.vue";
+ import {EventBus } from './event-bus.js';
 
 export default {
   components: {
@@ -100,12 +101,12 @@ export default {
       }
 
     },
-    doMaj: function () {
+    getTopicType: function () {
         const that = this;
         that.getTopic();
         that.getType();
     },
-    translate: function (bool) {
+    getTopicStatus: function (bool) {
         if(bool){
             return "FERME"
         }

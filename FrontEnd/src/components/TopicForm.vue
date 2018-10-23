@@ -25,14 +25,15 @@
                   >
                   </v-select>
                 </v-flex>
-                <v-flex xs12 sm6>
+                <!-- Exemple d'ajout de fonctionnalité pour choisir theme de discussion -->
+                <!-- <v-flex xs12 sm6>
                   <v-autocomplete
                     :items="['Skiing', 'Ice hockey', 'Soccer', 'Basketball', 'Hockey', 'Reading', 'Writing', 'Coding', 'Basejump']"
                     label="Sujet"
                     multiple
                     chips
                   ></v-autocomplete>
-                </v-flex>
+                </v-flex> -->
               </v-layout>
             </v-container>
             <small>*indicates required field</small>
@@ -52,8 +53,9 @@
   import PopUpVue from './PopUp.vue';
   import {EventBus} from './event-bus.js';
   import ListeTopicsVue from './ListeTopics.vue';
-  const API_Topic = 'http://localhost:3000/api/Topics';
-  const API_Type = 'http://localhost:3000/api/Types';
+  import Settings from '../../appSettings';
+  const API_Topic = Settings.BaseURL + Settings.Api.TOPICS;
+  const API_Type = Settings.BaseURL + Settings.Api.TYPES;
 
   export default {
     components: {
@@ -62,10 +64,6 @@
     },
     data () {
       return {
-        mounted: ListeTopicsVue.mounted,
-        setPopUp: PopUpVue.methods.SetPopUp,
-        maj: false,
-        bonjour1: 'test',
         dialog: false,
         errors: [],
         types: [],
@@ -83,16 +81,16 @@
     },
     methods: {
       addTopic: function(topic) {
-        const that = this;
         axios.post(API_Topic, topic)
-        .then(response =>{
-          this.maj = true;
-          EventBus.$emit('topic-added', {alert: true, type: 'success' , message: 'Ajout du topic '+topic.Name+ '. Réussi !'});
-          EventBus.$emit('topic-reloaded');
-          return response;
+        .then( () =>{
+          EventBus.$emit('topic-messaged', {alert: true, type: 'success' , message: 'Ajout du topic '+topic.Name+ '. Réussi !'});
+          EventBus.$emit('topic-changed');
         })
         .catch(e =>{
-          this.errors.push(e)
+          this.errors.push(e);
+           EventBus.$emit('topic-messaged', {alert: true, type: 'error' , message: 'Ajout du topic '+topic.Name+ '. Non réussi !'});
+           // eslint-disable-next-line
+           console.error(errors);
         })
       },
       getType: function() {
@@ -101,7 +99,9 @@
           this.types = response.data
         })
         .catch(e =>{
-          this.errors.push(e)
+          this.errors.push(e);
+          // eslint-disable-next-line
+          console.error(errors);
         })
       }
     }

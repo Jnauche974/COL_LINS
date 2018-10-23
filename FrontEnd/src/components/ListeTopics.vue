@@ -45,19 +45,16 @@ import axios from "axios";
 import TopicForm from "./TopicForm";
 import PopUp from "./PopUp";
 import EditTopic from "./EditTopic";
- import SnackBarInfo from "./SnackbarInfo";
  import {EventBus } from './event-bus.js';
+ import Settings from '../../appSettings';
 
-const API_Topic = "http://localhost:3000/api/Topics/";
+const API_Topic = Settings.BaseURL + Settings.Api.TOPICS;
 
 export default {
   components: {
     TopicForm,
     PopUp,
-    EditTopic,
-    SnackBarInfo
-    // tabIndex
-
+    EditTopic
   },
   data() {
     return {
@@ -76,7 +73,7 @@ export default {
   },
   mounted() {
     this.getTopic();
-     EventBus.$on('topic-reloaded', ()=> {
+     EventBus.$on('topic-changed', ()=> {
          this.getTopic();
       });
   },
@@ -84,26 +81,24 @@ export default {
     getTopic: function() {
       const that = this;
       axios
-        .get(API_Topic)
+        .get(API_Topic) //+'?filter[limit]=10'
         .then(response => {
           that.topics = response.data;
         })
         .catch(e => {
           this.errors.push(e);
+          // eslint-disable-next-line
+          console.error(errors);
         });
     },
     removeTopic: function(id) {
-      const that = this;
       axios.delete(API_Topic + id).then(function() {
-        that.getTopic();
-        EventBus.$emit('topic-reloaded');
+        EventBus.$emit('topic-changed');
       });
     },
     editTopic: function(topic) {
-      const that = this;
       axios.put(API_Topic + topic.id, topic).then(function() {
-        that.getTopic();
-        EventBus.$emit('topic-reloaded');
+        EventBus.$emit('topic-changed');
       });
     }
   }
