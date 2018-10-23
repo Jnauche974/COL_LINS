@@ -95,7 +95,7 @@ const API_Topic = "http://localhost:3000/api/Topics/";
           this.errors.push(e);
         });
         // eslint-disable-next-line
-        console.log(this.search);
+        console.info(this.search);
     },
     }
   }
