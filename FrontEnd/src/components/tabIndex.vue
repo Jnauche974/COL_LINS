@@ -55,7 +55,7 @@
 <script>
 import ListeTopic from './ListeTopics';
 import axios from "axios";
-// https://www.youtube.com/watch?v=G34_yNV8FMY
+
 const API_Topic = "http://localhost:3000/api/Topics/";
 
 
