@@ -62,7 +62,6 @@
 import Chat from './components/Chat'
 import ListeMembres from './components/ListeMembres'
 import CardProfile from './components/CardProfile'
-// import ListeTopics from './components/ListeTopics'
 import tabIndex from './components/tabIndex'
 import PopUp from './components/PopUp';
 
@@ -72,7 +71,6 @@ export default {
     Chat,
     ListeMembres,
     CardProfile,
-    // ListeTopics,
     PopUp,
     tabIndex
   },
