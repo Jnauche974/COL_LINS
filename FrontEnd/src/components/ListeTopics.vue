@@ -1,8 +1,5 @@
 <template>
       <v-card>
-        <PopUp/>
-        <SnackBarInfo/>
-
         <v-layout row justify-center>
           <EditTopic/>
           <TopicForm/>
@@ -15,7 +12,6 @@
           >
 
             <v-list-tile-content v-scroll>
-              <!-- <longpress duration="2" pressing-text="Keep pressing for {$rcounter} seconds to delete" action-text="Deleting, please wait..."> -->
                 <v-chip
                 v-model="chip_remove"
                 color="grey"
@@ -43,24 +39,22 @@
 <script>
 import axios from "axios";
 import TopicForm from "./TopicForm";
-import PopUp from "./PopUp";
 import EditTopic from "./EditTopic";
- import {EventBus } from './event-bus.js';
- import Settings from '../../appSettings';
+import {EventBus } from './event-bus.js';
+import Settings from '../../appSettings';
+
 
 const API_Topic = Settings.BaseURL + Settings.Api.TOPICS;
 
 export default {
   components: {
     TopicForm,
-    PopUp,
-    EditTopic
+    EditTopic,
   },
   data() {
     return {
       chip_remove: true,
       topics: [],
-      errors: [],
       item2: [],
       topic: {
         Name: "",
@@ -92,14 +86,28 @@ export default {
         });
     },
     removeTopic: function(id) {
+      const that = this;
       axios.delete(API_Topic + id).then(function() {
         EventBus.$emit('topic-changed');
-      });
+        EventBus.$emit('topic-messaged', {alert: true, type: 'orange' , message: 'Suppression du topic réussi !'});
+      })
+      .catch(e => {
+        EventBus.$emit('topic-messaged', {alert: true, type: 'error' , message: 'Suppression du topic non réussi !'});
+          // eslint-disable-next-line
+          console.error(e.message);
+        });
     },
     editTopic: function(topic) {
+      const that = this;
       axios.put(API_Topic + topic.id, topic).then(function() {
+        EventBus.$emit('topic-messaged', {alert: true, type: 'info' , message: 'Modification du topic réussi !'});
         EventBus.$emit('topic-changed');
-      });
+      })
+      .catch(e => {
+          EventBus.$emit('topic-messaged', {alert: true, type: 'error' , message: 'Modification du topic non réussi !'});
+          // eslint-disable-next-line
+          console.error(e.message);
+        });
     }
   }
 };

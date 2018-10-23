@@ -50,7 +50,6 @@
 
 <script>
   import axios from 'axios';
-  import PopUpVue from './PopUp.vue';
   import {EventBus} from './event-bus.js';
   import ListeTopicsVue from './ListeTopics.vue';
   import Settings from '../../appSettings';
@@ -59,13 +58,11 @@
 
   export default {
     components: {
-      PopUpVue,
       ListeTopicsVue
     },
     data () {
       return {
         dialog: false,
-        errors: [],
         types: [],
         topics: [],
         topic: {
@@ -87,10 +84,9 @@
           EventBus.$emit('topic-changed');
         })
         .catch(e =>{
-          this.errors.push(e);
            EventBus.$emit('topic-messaged', {alert: true, type: 'error' , message: 'Ajout du topic '+topic.Name+ '. Non réussi !'});
            // eslint-disable-next-line
-           console.error(errors);
+           console.error(e.message);
         })
       },
       getType: function() {
@@ -99,9 +95,8 @@
           this.types = response.data
         })
         .catch(e =>{
-          this.errors.push(e);
           // eslint-disable-next-line
-          console.error(errors);
+          console.error(e.message);
         })
       }
     }

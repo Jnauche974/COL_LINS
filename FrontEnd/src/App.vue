@@ -9,6 +9,7 @@
     >
     <!-- include du chat: ./components/ListeMembres.vue -->
         <ListeMembres/>
+
     </v-navigation-drawer>
 <!-- nav right  -->
 
@@ -36,6 +37,7 @@
        <!-- include du chat: ./components/ListeTopics.vue --> 
        <!-- <ListeTopics/> -->
        <tabIndex/>
+
        
     </v-navigation-drawer>
 <!--  nav left -->
@@ -45,6 +47,7 @@
       <v-container fluid fill-height>
         <!-- include du chat: ./components/Chat.vue -->
          <Chat/>
+         <SnackbarInfo/>
       </v-container>
     </v-content>
 <!-- Centre de la page -->
@@ -63,7 +66,7 @@ import Chat from './components/Chat'
 import ListeMembres from './components/ListeMembres'
 import CardProfile from './components/CardProfile'
 import tabIndex from './components/tabIndex'
-import PopUp from './components/PopUp';
+import SnackbarInfo from './components/SnackbarInfo'
 
 export default {
   name: 'App',
@@ -71,7 +74,7 @@ export default {
     Chat,
     ListeMembres,
     CardProfile,
-    PopUp,
+    SnackbarInfo,
     tabIndex
   },
   data () {

@@ -1,18 +1,14 @@
 <template>
 <v-snackbar
         v-model="snackbar"
-        :bottom="y === 'bottom'"
-        :left="x === 'left'"
-        :multi-line="mode === 'multi-line'"
-        :right="x === 'right'"
+        :right="true"
         :timeout="timeout"
-        :top="y === 'top'"
-        :vertical="mode === 'vertical'"
-        color="success"
+        :top="true"
+        :color="color"
       >
         {{ text }}
         <v-btn
-          color="pink"
+          dark
           flat
           @click="snackbar = false"
         >
@@ -21,16 +17,28 @@
 </v-snackbar>
 </template>
 <script>
+import {EventBus } from './event-bus.js';
   export default {
     data () {
       return {
         snackbar: false,
-        y: 'top',
-        x: null,
-        mode: '',
         timeout: 6000,
-        text: 'Hello, I\'m a snackbar'
+        text: '',
+        color: ''
       }
+    },
+     mounted(){
+      EventBus.$on('topic-messaged', (arg)=> {
+        let { alert , type, message} = arg;
+        this.SetSnackBar(alert, type, message);
+      });
+    },
+    methods: {
+        SetSnackBar: function(alertVal, typeVal, messageVal){
+            this.snackbar = alertVal;
+            this.color = typeVal;
+            this.text = messageVal;
+        }
     }
   }
 </script>

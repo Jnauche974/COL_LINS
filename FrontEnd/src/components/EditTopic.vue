@@ -69,7 +69,6 @@
 <script>
 import ListeTopicsVue from "./ListeTopics.vue";
 import TopicFormVue from "./TopicForm.vue";
- import {EventBus } from './event-bus.js';
 
 export default {
   components: {
