@@ -25,8 +25,6 @@ boot(app, __dirname, function(err) {
 
   // start the server if `$ node server.js`
   if (require.main === module) {
-    //Comment this app.start line and add following lines
-    //app.start();
     app.io = require('socket.io')(app.start());
     // Use this with user authentification
     /*require('socketio-auth')(app.io, {
@@ -54,11 +52,11 @@ boot(app, __dirname, function(err) {
       socket.on('disconnect', function(){
           console.info('user disconnected');
       });
-      socket.on('chatMessage', function(msg) {
-        socket.emit('chatMessage', msg);
-        let record =  [{"Date": new Date(Date.now()),"Message": msg}];
+      socket.on('submitMessage', function(msg) {
+        socket.emit('submitMessage', msg);
+        let record =  [{Date: new Date(Date.now()),Message: msg}];
         app.models.Message.create(record, (error) => {if (error) console.error(error);}); 
-        socket.broadcast.emit('chatMessage', msg);
+        socket.broadcast.emit('submitMessage', msg);
       })
     });
   }
