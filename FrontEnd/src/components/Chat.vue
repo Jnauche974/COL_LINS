@@ -54,13 +54,15 @@ import axios from 'axios';
     sockets: {
       connect() {
         this.getMessages();
+        //Send a message when user connected
       },
 
       disconnect() {
-        
+        // Send a message when user disconnected
       },
-
-      chatMessage (message) {
+      
+      // eslint-disable-next-line
+      submitMessage (message) {
         this.getMessages();
       }
     },
@@ -69,7 +71,7 @@ import axios from 'axios';
       submit () {
         if (this.$refs.form.validate()) {
           // Get the message and sent to the serveur
-          this.$socket.emit('chatMessage', this.message);
+          this.$socket.emit('submitMessage', this.message);
           this.message = '';
         }
       },
