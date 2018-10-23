@@ -25,33 +25,40 @@ boot(app, __dirname, function(err) {
 
   // start the server if `$ node server.js`
   if (require.main === module) {
-    //Comment this app.start line and add following lines
-    //app.start();
     app.io = require('socket.io')(app.start());
-    require('socketio-auth')(app.io, {
-      authenticate: function (socket, value, callback) {
-  
-          var AccessToken = app.models.AccessToken;
-          //get credentials sent by the client
-          var token = AccessToken.find({
-            where:{
-              and: [{ userId: value.userId }, { id: value.id }]
-            }
-          }, function(err, tokenDetail){
-            if (err) throw err;
-            if(tokenDetail.length){
-              callback(null, true);
-            } else {
-              callback(null, false);
-            }
-          }); //find function..    
-        } //authenticate function..
-    });
-  
-    app.io.on('connection', function(socket){
-      console.log('a user connected');
-      socket.on('disconnect', function(){
-          console.log('user disconnected');
+    // Use this with user authentification
+    // require('socketio-auth')(app.io, {
+      // authenticate: function (socket, value, callback) {
+
+      //     var AccessToken = app.models.AccessToken;
+      //     //get credentials sent by the client
+      //     var token = AccessToken.find({
+      //       where:{
+      //         and: [{ userId: value.userId }, { id: value.id }]
+      //       }
+      //     }, function(err, tokenDetail){
+      //       if (err) throw err;
+      //       if(tokenDetail.length){
+      //         callback(null, true);
+      //       } else {
+      //         callback(null, false);
+      //       }
+      //     }); //find function..
+      //   } //authenticate function..
+    // });
+
+    app.io.on('connection', function(socket) {
+      console.info('a user connected');
+      socket.on('disconnect', function() {
+        console.info('user disconnected');
+      });
+      socket.on('submitMessage', function(msg) {
+        socket.emit('submitMessage', msg);
+        let record =  [{Date: new Date(Date.now()), Message: msg}];
+        app.models.Message.create(record, (error) => {
+          if (error) console.error(error);
+        });
+        socket.broadcast.emit('submitMessage', msg);
       });
     });
   }
