@@ -1,15 +1,15 @@
 <template>
   <v-app id="inspire">
-
    <!-- nav right  -->
     <v-navigation-drawer
       v-model="drawerRight"
       fixed
-      right      
+      right
       app
     >
-    <!-- include du chat: ./components/ListeMembres.vue -->      
-        <ListeMembres/>      
+    <!-- include du chat: ./components/ListeMembres.vue -->
+        <ListeMembres/>
+
     </v-navigation-drawer>
 <!-- nav right  -->
 
@@ -19,10 +19,9 @@
       dark
       fixed
       app
-      
+
     >
-      
-      <v-toolbar-title>Titre du topic</v-toolbar-title>     
+      <v-toolbar-title>Titre du topic</v-toolbar-title>
     </v-toolbar>
 <!-- Barre titre -->
 
@@ -36,7 +35,9 @@
        <CardProfile/>
 
        <!-- include du chat: ./components/ListeTopics.vue --> 
-       <ListeTopics/>
+       <!-- <ListeTopics/> -->
+       <tabIndex/>
+
        
     </v-navigation-drawer>
 <!--  nav left -->
@@ -46,6 +47,7 @@
       <v-container fluid fill-height>
         <!-- include du chat: ./components/Chat.vue -->
          <Chat/>
+         <SnackbarInfo/>
       </v-container>
     </v-content>
 <!-- Centre de la page -->
@@ -63,7 +65,8 @@
 import Chat from './components/Chat'
 import ListeMembres from './components/ListeMembres'
 import CardProfile from './components/CardProfile'
-import ListeTopics from './components/ListeTopics'
+import tabIndex from './components/tabIndex'
+import SnackbarInfo from './components/SnackbarInfo'
 
 export default {
   name: 'App',
@@ -71,7 +74,8 @@ export default {
     Chat,
     ListeMembres,
     CardProfile,
-    ListeTopics
+    SnackbarInfo,
+    tabIndex
   },
   data () {
     return {
@@ -84,7 +88,7 @@ export default {
       }],
       miniVariant: false,
       right: true,
-      rightDrawer: false,
+      drawerRight: false,
       title: 'Titre topics'
     }
   }

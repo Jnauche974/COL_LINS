@@ -1,53 +1,114 @@
 <template>
       <v-card>
-        <v-list two-line subheader>
-          <v-subheader inset>Mes topics</v-subheader>
+        <v-layout row justify-center>
+          <EditTopic/>
+          <TopicForm/>
+        </v-layout>
           <v-list-tile
-            v-for="item in items"
-            :key="item.title"
+            v-for="topic in topics"
+            :key="topic.title"
             avatar
-            @click=""
-          >           
-
-            <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
-            </v-list-tile-content>
-          </v-list-tile>
-
-          <v-divider inset></v-divider>
-
-          <v-subheader inset>Mes abonnements</v-subheader>
-
-          <v-list-tile
-            v-for="item in items2"
-            :key="item.title"
-            avatar
-            @click=""
+            v-if="topic.Close == false"
           >
-            <v-list-tile-content>
-              <v-list-tile-title>{{ item.title }}</v-list-tile-title>
-              <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+
+            <v-list-tile-content v-scroll>
+                <v-chip
+                v-model="chip_remove"
+                color="grey"
+                outline
+                v-if="topic.typeId == '5bb3173947a5260016c52947' "
+                @input="removeTopic(topic.id)"
+                >
+                  {{ topic.Name }}
+                </v-chip>
+                <v-chip
+                v-model="chip_remove"
+                color="blue"
+                outline
+                v-else
+                @input="removeTopic(topic.id)"
+                >
+                  {{ topic.Name }}
+                </v-chip>
             </v-list-tile-content>
           </v-list-tile>
-        </v-list>
+          <v-divider inset></v-divider>
       </v-card>
 
 </template>
 <script>
-  export default {
-    data () {
-      return {
-        items: [
-          { iconClass: 'grey lighten-1 white--text', title: 'Topic 1', subtitle: 'Jan 9, 2018' },
-          { iconClass: 'grey lighten-1 white--text', title: 'Topic 2', subtitle: 'Jan 17, 2018' },
-          { iconClass: 'grey lighten-1 white--text', title: 'Topic 3', subtitle: 'Jan 28, 2018' }
-        ],
-        items2: [
-          { iconClass: 'blue white--text', title: 'Mes abonnements 1', subtitle: 'Jan 20, 2018' },
-          { iconClass: 'amber white--text', title: 'Mes abonnements 2', subtitle: 'Jan 10, 2018' }
-        ]
+import axios from "axios";
+import TopicForm from "./TopicForm";
+import EditTopic from "./EditTopic";
+import {EventBus } from './event-bus.js';
+import Settings from '../../appSettings';
+
+
+const API_Topic = Settings.BaseURL + Settings.Api.TOPICS;
+
+export default {
+  components: {
+    TopicForm,
+    EditTopic,
+  },
+  data() {
+    return {
+      chip_remove: true,
+      topics: [],
+      item2: [],
+      topic: {
+        Name: "",
+        Close: "",
+        id: "",
+        histopicId: "",
+        typeId: ""
       }
+    };
+  },
+  mounted() {
+    this.getTopic();
+     EventBus.$on('topic-changed', ()=> {
+         this.getTopic();
+      });
+  },
+  methods: {
+    getTopic: function() {
+      const that = this;
+      axios
+        .get(API_Topic) //+'?filter[limit]=10'
+        .then(response => {
+          that.topics = response.data;
+        })
+        .catch(e => {
+          this.errors.push(e);
+          // eslint-disable-next-line
+          console.error(errors);
+        });
+    },
+    removeTopic: function(id) {
+      const that = this;
+      axios.delete(API_Topic + id).then(function() {
+        EventBus.$emit('topic-changed');
+        EventBus.$emit('topic-messaged', {alert: true, type: 'orange' , message: 'Suppression du topic réussi !'});
+      })
+      .catch(e => {
+        EventBus.$emit('topic-messaged', {alert: true, type: 'error' , message: 'Suppression du topic non réussi !'});
+          // eslint-disable-next-line
+          console.error(e.message);
+        });
+    },
+    editTopic: function(topic) {
+      const that = this;
+      axios.put(API_Topic + topic.id, topic).then(function() {
+        EventBus.$emit('topic-messaged', {alert: true, type: 'info' , message: 'Modification du topic réussi !'});
+        EventBus.$emit('topic-changed');
+      })
+      .catch(e => {
+          EventBus.$emit('topic-messaged', {alert: true, type: 'error' , message: 'Modification du topic non réussi !'});
+          // eslint-disable-next-line
+          console.error(e.message);
+        });
     }
   }
+};
 </script>

@@ -5,9 +5,14 @@
   "scripts": {
     "serve": "./node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
     "build": "./node_modules/@vue/cli-service/bin/vue-cli-service.js build",
-    "lint": "./node_modules/@vue/cli-service/bin/vue-cli-service.js lint"
+    "lint": "./node_modules/@vue/cli-service/bin/vue-cli-service.js lint",
+
+    "serve_local": "vue-cli-service serve",
+    "build_local": "vue-cli-service build",
+    "lint_local": "vue-cli-service lint"
   },
   "dependencies": {
+    "axios": "^0.18.0",
     "socket.io-client": "^2.1.1",
     "vue": "^2.5.17",
     "vue-socket.io": "^2.1.1-b",
