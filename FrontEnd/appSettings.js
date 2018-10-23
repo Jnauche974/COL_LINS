@@ -1,5 +1,5 @@
 var baseUrl = "http:";
-var HOST = process.env.WSHOST || '10.0.0.100';
+var HOST = process.env.WSHOST || 'localhost';
 var Port = '3000';
 export default {
 
