@@ -1,17 +1,20 @@
 <template>
   <v-container fluid>
     <v-slide-y-transition mode="out-in">
-      <v-layout column align-center>
+      <v-layout column fill-height>
         <div id="messageChat">
            <ul v-for="msg of messages">
               <li>
+                 <span>Username</span>
                  <p><strong>{{msg.Message}}</strong></p>
                  <p>{{msg.Date}}</p>
               </li>
            </ul>
         </div>
-        <img src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
-        <div>
+        <v-layout column align-center>
+          <img src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
+        </v-layout>
+        <v-layout column align-center>
               <v-form id="form" ref="form" v-model="valid" lazy-validation>
                 <v-textarea
                   v-model="message"
@@ -30,7 +33,7 @@
                 </v-btn>
                 <v-btn v-on:click="clear">Effacer</v-btn>
               </v-form>
-          </div>
+          </v-layout>
       </v-layout>
     </v-slide-y-transition>
   </v-container>
@@ -55,6 +58,7 @@ import axios from 'axios';
       connect() {
         this.getMessages();
         //Send a message when user connected
+
       },
 
       disconnect() {
@@ -99,22 +103,7 @@ import axios from 'axios';
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-h3 {
-  margin: 40px 0 0;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-#messages { list-style-type: none; margin: 0; padding: 0; }
-#messages li { padding: 5px 10px; }
-#messages li:nth-child(odd) { background: #eee; }
-#form {position: fixed; bottom: 50px; }
+li {list-style-type: none;}
+ul:nth-child(even) {background-color: #f2f2f2;}
+#form {position: fixed; bottom: 30px; }
 </style>
