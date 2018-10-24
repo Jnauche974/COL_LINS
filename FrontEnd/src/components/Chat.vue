@@ -48,6 +48,8 @@ import axios from 'axios';
       valid: true,
       message: '',
       messages:[],
+      topic: 'myTopicTest',
+      id: 1,
       messageRules: [
         v => !!v || 'Message is required',
         v => (v && v.length <= 200) || 'Message must be less than 200 characters'
@@ -56,9 +58,9 @@ import axios from 'axios';
 
     sockets: {
       connect() {
-        this.getMessages();
+        this.getMessages(this.id);
         //Send a message when user connected
-
+        this.getTopic();
       },
 
       disconnect() {
@@ -67,30 +69,37 @@ import axios from 'axios';
       
       // eslint-disable-next-line
       submitMessage (message) {
-        this.getMessages();
-      }
-    },
+        this.getMessages(this.id);
+      },
 
+      publishMessageTopic(topic, message) {
+      
+      }
+    }, 
+   
     methods: {
       submit () {
         if (this.$refs.form.validate()) {
           // Get the message and sent to the serveur
-          this.$socket.emit('submitMessage', this.message);
+          this.$socket.emit('submitMessage', this.message, this.id);
           this.message = '';
-        }
+        } 
       },
       
-      getMessages () {
+      getMessages (id) {
         // Todo request from Topics/{id}/messages
-        axios.get('http://localhost:3000/api/Messages')
+        axios.get('http://localhost:3000/api/Topics/'+ id +'/messages')
           .then(response => {
             this.messages = response.data
-    
           })
           .catch(e => {
             // eslint-disable-next-line
             console.error(e)
           });
+      },
+
+      getTopic() {
+        this.$socket.emit('subscribeTopic', this.topic);
       },
 
       clear () {
