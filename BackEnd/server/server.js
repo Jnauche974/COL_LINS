@@ -2,6 +2,8 @@
 
 var loopback = require('loopback');
 var boot = require('loopback-boot');
+var mqtt = require('mqtt');
+var client = mqtt.connect("mqtt://localhost:1883");
 
 var app = module.exports = loopback();
 
@@ -52,12 +54,28 @@ boot(app, __dirname, function(err) {
       socket.on('disconnect', function(){
           console.info('user disconnected');
       });
-      socket.on('submitMessage', function(msg) {
+      socket.on('submitMessage', function(msg, topic) {
         socket.emit('submitMessage', msg);
-        let record =  [{Date: new Date(Date.now()),Message: msg}];
+        let record =  [{Date: new Date(Date.now()),Message: msg, topicId: topic}];
         app.models.Message.create(record, (error) => {if (error) console.error(error);}); 
-        socket.broadcast.emit('submitMessage', msg);
-      })
+        //socket.broadcast.emit('submitMessage', msg);
+        // Publish message in Topic
+        client.publish(topic, msg);
+        console.log(topic +' : '+ msg);
+        //socket.emit('publishMessageTopic', topic, msg);
+      });
+      socket.on('subscribeTopic', function(topic) {
+        client.subscribe(topic);
+        console.log('Je souscris à ' + topic);
+      });
     });
+    /*client.on('connect', function () {
+      client.subscribe('myTopic');
+      console.log('Je souscris à myTopic');
+      client.publish('myTopic', 'Hello mqtt');
+    })*/
+    /*client.on('message', function (topic, msg2) {
+      console.log(msg2.toString())
+    })*/
   }
 });
