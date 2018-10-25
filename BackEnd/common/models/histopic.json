@@ -17,16 +17,7 @@
     }
   },
   "validations": [],
-  "relations": {
-    "topics": {
-      "type": "hasMany",
-      "model": "Topic",
-      "foreignKey": "",
-      "options": {
-        "nestRemoting": true
-      }
-    }
-  },
+  "relations": {},
   "acls": [],
   "methods": {}
 }
