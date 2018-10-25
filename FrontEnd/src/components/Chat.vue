@@ -3,13 +3,13 @@
     <v-slide-y-transition mode="out-in">
       <v-layout column fill-height>
         <div id="messageChat">
-           <ul v-for="msg of messages">
-              <li>
-                 <span>Username</span>
-                 <p><strong>{{msg.Message}}</strong></p>
-                 <p>{{msg.Date}}</p>
-              </li>
-           </ul>
+          <ul v-for="msg of messages">
+            <li>
+              <span>Username</span>
+              <p><strong>{{msg.text}}</strong></p>
+              <p>{{msg.Date}}</p>
+            </li>
+          </ul>
         </div>
         <v-layout column align-center>
           <img src="@/assets/logo.png" alt="Vuetify.js" class="mb-5">
@@ -42,6 +42,8 @@
 
 <script>
 import axios from 'axios';
+import settings from '../../appSettings'
+var decoder = new TextDecoder("utf-8");
 
   export default {
     data: () => ({
@@ -58,16 +60,18 @@ import axios from 'axios';
       connect() {
         this.getMessages();
         //Send a message when user connected
+        this.$socket.emit('subscribe', 'topic/1');
 
       },
 
       disconnect() {
         // Send a message when user disconnected
       },
-      
-      // eslint-disable-next-line
-      submitMessage (message) {
-        this.getMessages();
+
+      "topic/1": function (message) {
+        console.info(`new message received : ${decoder.decode(message)}`);
+        // this.getMessages();
+        this.messages.push(JSON.parse(decoder.decode(message)));
       }
     },
 
@@ -75,17 +79,22 @@ import axios from 'axios';
       submit () {
         if (this.$refs.form.validate()) {
           // Get the message and sent to the serveur
-          this.$socket.emit('submitMessage', this.message);
-          this.message = '';
+          axios.post(`${settings.BaseURL}${settings.Api.MESSAGES}`, {
+            text: this.message,
+            topicId: 1,
+            Date: new Date(),
+          }).then(() => {
+            this.message = '';
+            this.clear();
+          })
         }
       },
-      
+
       getMessages () {
         // Todo request from Topics/{id}/messages
-        axios.get('http://localhost:3000/api/Messages')
+        axios.get(`${settings.BaseURL}${settings.Api.MESSAGES}`)
           .then(response => {
             this.messages = response.data
-    
           })
           .catch(e => {
             // eslint-disable-next-line

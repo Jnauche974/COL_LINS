@@ -1,11 +1,12 @@
-var baseUrl = "http:";
+var baseUrl = 'http:';
 var HOST = process.env.WSHOST || 'localhost';
-var Port = '3000';
+var Port = '8080';
 export default {
 
         Api:{
-            TOPICS: "/api/Topics/",
-            TYPES: "/api/Types/"
+            TOPICS: '/api/Topics/',
+            TYPES: '/api/Types/',
+            MESSAGES: '/api/Messages/'
         },
         BaseURL: `${baseUrl}//${HOST}:${Port}`
 }

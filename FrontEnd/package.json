@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "./node_modules/@vue/cli-service/bin/vue-cli-service.js serve",
+    "serve": "./node_modules/@vue/cli-service/bin/vue-cli-service.js serve --port 8081",
     "build": "./node_modules/@vue/cli-service/bin/vue-cli-service.js build",
     "lint": "./node_modules/@vue/cli-service/bin/vue-cli-service.js lint",
 
