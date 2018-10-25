@@ -43,6 +43,8 @@
 <script>
 import axios from 'axios';
 import settings from '../../appSettings'
+import {EventBus } from './event-bus.js';
+
 var decoder = new TextDecoder("utf-8");
 
   export default {
@@ -50,6 +52,7 @@ var decoder = new TextDecoder("utf-8");
       valid: true,
       message: '',
       messages:[],
+      topic: 0,
       messageRules: [
         v => !!v || 'Message is required',
         v => (v && v.length <= 200) || 'Message must be less than 200 characters'
@@ -58,30 +61,35 @@ var decoder = new TextDecoder("utf-8");
 
     sockets: {
       connect() {
-        this.getMessages();
         //Send a message when user connected
-        this.$socket.emit('subscribe', 'topic/1');
-
+        console.info('connected on chat serveur');
       },
-
-      disconnect() {
-        // Send a message when user disconnected
-      },
-
-      "topic/1": function (message) {
-        console.info(`new message received : ${decoder.decode(message)}`);
-        // this.getMessages();
-        this.messages.push(JSON.parse(decoder.decode(message)));
-      }
     },
+    mounted() {
+      EventBus.$on('topic-selected', (topicSelected)=> {
+        if(this.topic !== topicSelected && this.topic > 0) {
+          delete this.$options.sockets[this.topic]
+          this.$socket.emit('unsubscribe', `topic/${this.topic}`);
+        }
 
+        this.topic = topicSelected;
+        this.$socket.emit('subscribe', `topic/${topicSelected}`);
+        this.$options.sockets[`topic/${topicSelected}`] = this.onMessageReceived;
+
+        this.getMessages();
+      });
+    },
     methods: {
+      onMessageReceived: function (message) {
+        console.info(`new message received : ${decoder.decode(message)}`);
+        this.messages.push(JSON.parse(decoder.decode(message)));
+      },
       submit () {
         if (this.$refs.form.validate()) {
           // Get the message and sent to the serveur
           axios.post(`${settings.BaseURL}${settings.Api.MESSAGES}`, {
             text: this.message,
-            topicId: 1,
+            topicId: this.topic,
             Date: new Date(),
           }).then(() => {
             this.message = '';
@@ -91,8 +99,7 @@ var decoder = new TextDecoder("utf-8");
       },
 
       getMessages () {
-        // Todo request from Topics/{id}/messages
-        axios.get(`${settings.BaseURL}${settings.Api.MESSAGES}`)
+        axios.get(`${settings.BaseURL}${settings.Api.TOPICS}${this.topic}/messages?time=${Date.now()}`)
           .then(response => {
             this.messages = response.data
           })

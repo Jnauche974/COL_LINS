@@ -14,19 +14,10 @@
             <v-list-tile-content v-scroll>
                 <v-chip
                 v-model="chip_remove"
-                color="grey"
-                outline
-                v-if="topic.typeId == '5bb3173947a5260016c52947' "
-                @input="removeTopic(topic.id)"
-                >
-                  {{ topic.Name }}
-                </v-chip>
-                <v-chip
-                v-model="chip_remove"
                 color="blue"
                 outline
-                v-else
                 @input="removeTopic(topic.id)"
+                @click="emitSelectTopic(topic.id)"
                 >
                   {{ topic.Name }}
                 </v-chip>
@@ -67,9 +58,9 @@ export default {
   },
   mounted() {
     this.getTopic();
-     EventBus.$on('topic-changed', ()=> {
-         this.getTopic();
-      });
+    EventBus.$on('topic-changed', ()=> {
+      this.getTopic();
+    });
   },
   methods: {
     getTopic: function() {
@@ -84,6 +75,9 @@ export default {
           // eslint-disable-next-line
           console.error(errors);
         });
+    },
+    emitSelectTopic: function(id){
+      EventBus.$emit('topic-selected', id);
     },
     removeTopic: function(id) {
       const that = this;
