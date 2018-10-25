@@ -72,8 +72,8 @@ import axios from 'axios';
         this.getMessages(this.id);
       },
 
-      publishMessageTopic(topic, message) {
-      
+      publishMessageTopic(topic) {
+         this.getMessages(topic);
       }
     }, 
    
