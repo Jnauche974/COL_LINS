@@ -27,25 +27,7 @@ boot(app, __dirname, function(err) {
   if (require.main === module) {
     app.io = require('socket.io')(app.start());
     // Use this with user authentification
-    // require('socketio-auth')(app.io, {
-      // authenticate: function (socket, value, callback) {
 
-      //     var AccessToken = app.models.AccessToken;
-      //     //get credentials sent by the client
-      //     var token = AccessToken.find({
-      //       where:{
-      //         and: [{ userId: value.userId }, { id: value.id }]
-      //       }
-      //     }, function(err, tokenDetail){
-      //       if (err) throw err;
-      //       if(tokenDetail.length){
-      //         callback(null, true);
-      //       } else {
-      //         callback(null, false);
-      //       }
-      //     }); //find function..
-      //   } //authenticate function..
-    // });
     app.subscribers = [];
     app.io.on('connection', function(socket) {
       console.info('client connected');
@@ -65,11 +47,16 @@ boot(app, __dirname, function(err) {
         }
       });
 
-      socket.on('submitMessage', function(msg, topicId) {
-        let record =  [{Date: new Date(Date.now()), Message: msg, topicId}];
-        app.models.Message.create(record, (error) => {
-          if (error) console.error(error);
-        });
+      socket.on('unsubscribe', function(payload) {
+        const topic = payload.toString();
+        console.info(`try to unsubscribe topic: ${topic}`);
+        if (app.subscribers[topic]) {
+          app.subscribers[topic] = app.subscribers[topic]
+          .filter((soc) => {
+            return soc.id !== socket.id;
+          });
+          app.mqttClient.unsubscribe(topic);
+        }
       });
     });
   }
