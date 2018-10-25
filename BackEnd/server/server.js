@@ -62,8 +62,9 @@ boot(app, __dirname, function(err) {
         // Publish message in Topic
         client.publish(topic, msg);
         console.log(topic +' : '+ msg);
-        //socket.emit('publishMessageTopic', topic, msg);
+        socket.broadcast.emit('publishMessageTopic', topic);
       });
+
       socket.on('subscribeTopic', function(topic) {
         client.subscribe(topic);
         console.log('Je souscris à ' + topic);
