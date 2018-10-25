@@ -11,7 +11,7 @@
       "type": "date",
       "required": true
     },
-    "Message": {
+    "text": {
       "type": "string",
       "required": true
     }

@@ -46,19 +46,30 @@ boot(app, __dirname, function(err) {
       //     }); //find function..
       //   } //authenticate function..
     // });
-
+    app.subscribers = [];
     app.io.on('connection', function(socket) {
-      console.info('a user connected');
+      console.info('client connected');
       socket.on('disconnect', function() {
-        console.info('user disconnected');
+        console.info('client disconnected');
       });
-      socket.on('submitMessage', function(msg) {
-        socket.emit('submitMessage', msg);
-        let record =  [{Date: new Date(Date.now()), Message: msg}];
+      socket.on('subscribe', function(payload) {
+        const topic = payload.toString();
+        if (!app.subscribers[topic]) {
+          app.subscribers[topic] = [];
+        }
+        const isAlreadySub = app.subscribers[topic]
+          .some((soc) => { return soc.id === socket.id; });
+        if (!isAlreadySub) {
+          app.subscribers[topic].push(socket);
+          app.mqttClient.subscribe(topic);
+        }
+      });
+
+      socket.on('submitMessage', function(msg, topicId) {
+        let record =  [{Date: new Date(Date.now()), Message: msg, topicId}];
         app.models.Message.create(record, (error) => {
           if (error) console.error(error);
         });
-        socket.broadcast.emit('submitMessage', msg);
       });
     });
   }
